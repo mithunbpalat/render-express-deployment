@@ -12,7 +12,11 @@ connectDB();
 const app = express()
 
 app.use(express.static(path.join(__dirname, "public")))
-app.use(cors())
+app.use(cors({
+  origin: 'https://erp.zoomlabs.in',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json())
 
 // Serve uploaded images
