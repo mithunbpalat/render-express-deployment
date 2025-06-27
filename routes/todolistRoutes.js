@@ -1,49 +1,53 @@
 const express = require('express');
 const router = express.Router();
+const { verifyToken } = require('../middleware/verifyToken');
 const todolistController = require('../controllers/todolistController');
 
 
-// Get all todolist
-router.get('/', todolistController.getTodosList);
+// Get all todolist today
+router.get('/', verifyToken, todolistController.getTodosList);
+
+// Get all todolist pending
+router.get('/pending', verifyToken, todolistController.getPendingTodosList);
 
 // Get all trash todolist
-router.get('/trash', todolistController.getTrashTodosList);
+router.get('/trash', verifyToken, todolistController.getTrashTodosList);
 
 // Get all taskdone todolist
-router.get('/taskdone', todolistController.getDoneTodosList);
+router.get('/taskdone', verifyToken, todolistController.getDoneTodosList);
 
 // Get all important todolist
-router.get('/important', todolistController.getImportantTodosList);
+router.get('/important', verifyToken, todolistController.getImportantTodosList);
 
 // Add a new todolist
-router.post('/', todolistController.addTodolist);
+router.post('/', verifyToken, todolistController.addTodolist);
 
 // Get todolist by ID
-router.get('/:id', todolistController.getTodolistById);
+router.get('/:id', verifyToken, todolistController.getTodolistById);
 
 // Update a todolist by ID
-router.put('/:id', todolistController.updateTodolist);
+router.put('/:id', verifyToken, todolistController.updateTodolist);
 
 
 // Delete a todolist by ID
-router.delete('/:id', todolistController.deleteTodolist);
+router.delete('/:id', verifyToken, todolistController.deleteTodolist);
 
 //Mark a Todo as Important
-router.put('/markimportant/:id', todolistController.updateImportanttodolist);
+router.put('/markimportant/:id', verifyToken, todolistController.updateImportanttodolist);
 
 //Mark Todo as Task done
-router.put('/taskdone/:id', todolistController.updateTaskdonetodolist);
+router.put('/taskdone/:id', verifyToken, todolistController.updateTaskdonetodolist);
 
 //Mark Todo as Not Task done 
-router.put('/taskdoneremove/:id', todolistController.updateTaskdoneRemovetodolist);
+router.put('/taskdoneremove/:id', verifyToken, todolistController.updateTaskdoneRemovetodolist);
 
 // Revive a todolist by ID
-router.put('/revive/:id', todolistController.reviveTodolist);
+router.put('/revive/:id', verifyToken, todolistController.reviveTodolist);
 
 // Permanent Delete a todolist by ID
-router.delete('/permanentdelete/:id', todolistController.permanentdeleteTodolist);
+router.delete('/permanentdelete/:id', verifyToken, todolistController.permanentdeleteTodolist);
 
 // Create priority for a todolist by ID
-router.put('/priority/:id', todolistController.priorityTodolist);
+router.put('/priority/:id', verifyToken, todolistController.priorityTodolist);
 
 module.exports = router;

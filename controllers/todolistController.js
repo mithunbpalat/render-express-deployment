@@ -3,7 +3,41 @@ const Todos = require('../models/Todos');
 // Get all Todos
 exports.getTodosList = async (req, res) => {
   try {
-    const todoslist = await Todos.find({"dlt_sts": 1, "important": 0, "task_done" : 0});
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const todoslist = await Todos.find( {
+      start_date: { $gte: todayStart, $lt: todayEnd },
+      dlt_sts: 1,
+      important: 0,
+      task_done: 0
+    });
+    res.json(todoslist);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch todos list' });
+  }
+};
+
+exports.getPendingTodosList = async (req, res) => {
+  try {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const todoslist = await Todos.find({
+      $or: [
+        { start_date: { $lt: todayStart } },
+        { start_date: { $gte: todayEnd } }
+      ],
+      dlt_sts: 1,
+      important: 0,
+      task_done: 0
+    });
     res.json(todoslist);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch todos list' });
