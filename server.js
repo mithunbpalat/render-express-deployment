@@ -13,8 +13,8 @@ const app = express()
 
 app.use(express.static(path.join(__dirname, "public")))
 app.use(cors({
-  // origin: 'https://erp.zoomlabs.in',
-  origin: 'http://localhost:3000',
+  origin: 'https://erp.zoomlabs.in',
+  // origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
