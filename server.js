@@ -13,8 +13,8 @@ const app = express()
 
 app.use(express.static(path.join(__dirname, "public")))
 app.use(cors({
-  origin: 'https://erp.zoomlabs.in',
-  // origin: 'http://localhost:3000',
+  // origin: 'https://erp.zoomlabs.in',
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -26,6 +26,7 @@ app.use('/uploads', express.static('uploads'));
 // Routes
 app.use('/api/todolist', require('./routes/todolistRoutes'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/notes', require('./routes/notes'));
 
 
 

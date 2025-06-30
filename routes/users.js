@@ -10,6 +10,7 @@ router.get('/create-admin', userController.createAdmin);
 router.post('/create', verifyToken, userController.createUser);
 router.post('/login', userController.login);
 router.post('/adminlogin' ,userController.adminlogin);
+router.post('/userlogin', userController.userlogin);
 router.get('/me', verifyToken, upload.fields([
   { name: "image", maxCount: 1 },
   { name: "biodata", maxCount: 1 }

@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, uname: user.uname, role: user.role },
       JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '10m' }
     );
 
     res.json({ token, user: { uId: user.uId, name: user.name, role: user.role } });
@@ -96,7 +96,28 @@ exports.adminlogin = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, uname: user.uname, role: user.role },
       JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '10m' }
+    );
+
+    res.json({ token, user: { uId: user.uId, name: user.name, role: user.role } });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+};
+
+exports.userlogin = async (req, res) => {
+  const { uname, password } = req.body;
+  try {
+    const user = await User.findOne({ uname });
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const isMatch = await bcrypt.compare(password, user.pwd);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const token = jwt.sign(
+      { id: user._id, uname: user.uname, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '10m' }
     );
 
     res.json({ token, user: { uId: user.uId, name: user.name, role: user.role } });
